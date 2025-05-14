@@ -1,0 +1,204 @@
+local UIS = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "BDFS gui"
+gui.ResetOnSpawn = false
+
+local mainFrame = Instance.new("Frame", gui)
+mainFrame.Size = UDim2.new(0, 800, 0, 600) 
+mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+mainFrame.BorderSizePixel = 0
+mainFrame.ClipsDescendants = true
+
+local topBar = Instance.new("Frame", mainFrame)
+topBar.Size = UDim2.new(1, 0, 0, 30)
+topBar.Position = UDim2.new(0, 0, 0, 0)
+topBar.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+
+local dragging, dragStart, startPos
+topBar.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+		dragStart = input.Position
+		startPos = mainFrame.Position
+	end
+end)
+
+topBar.InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
+
+UIS.InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		local delta = input.Position - dragStart
+		mainFrame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X,
+			startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+	end
+end)
+
+local closeBtn = Instance.new("TextButton", topBar)
+closeBtn.Size = UDim2.new(0, 30, 1, 0)
+closeBtn.Position = UDim2.new(1, -30, 0, 0)
+closeBtn.Text = "X"
+closeBtn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+closeBtn.TextColor3 = Color3.fromRGB(255, 80, 80)
+closeBtn.BorderSizePixel = 0
+closeBtn.MouseButton1Click:Connect(function()
+	gui.Enabled = false
+end)
+
+local sidebar = Instance.new("Frame", mainFrame)
+sidebar.Size = UDim2.new(0, 120, 1, -30)
+sidebar.Position = UDim2.new(0, 0, 0, 30)
+sidebar.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+
+local hamburger = Instance.new("TextButton", topBar)
+hamburger.Size = UDim2.new(0, 30, 1, 0)
+hamburger.Text = "≡"
+hamburger.TextSize = 20
+hamburger.Position = UDim2.new(0, 0, 0, 0)
+hamburger.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+hamburger.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+local contentFrame = Instance.new("Frame", mainFrame)
+contentFrame.Size = UDim2.new(1, -120, 1, -30)
+contentFrame.Position = UDim2.new(0, 120, 0, 30)
+contentFrame.BackgroundTransparency = 1
+
+local tooltip = Instance.new("TextLabel", gui)
+tooltip.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+tooltip.TextColor3 = Color3.fromRGB(255, 255, 255)
+tooltip.TextSize = 14
+tooltip.Text = ""
+tooltip.Visible = false
+tooltip.BorderSizePixel = 0
+tooltip.ZIndex = 10
+tooltip.BackgroundTransparency = 0.1
+tooltip.AutomaticSize = Enum.AutomaticSize.XY
+tooltip.TextWrapped = true
+tooltip.TextXAlignment = Enum.TextXAlignment.Left
+tooltip.TextYAlignment = Enum.TextYAlignment.Top
+
+UIS.InputChanged:Connect(function(input)
+	if tooltip.Visible and input.UserInputType == Enum.UserInputType.MouseMovement then
+		tooltip.Position = UDim2.new(0, input.Position.X + 10, 0, input.Position.Y + 10)
+	end
+end)
+
+local tabData = {
+	["Teleports"] = {
+		{Name = "Dead Co. Base", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Co.%20Base.txt", Tip = "The base of the dead co. tower"},
+		{Name = "Dead Co. Roof", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Co.%20Roof.txt", Tip = "Nice View!"},
+		{Name = "Dead Mesa OutOfBounds", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Mesa%20OutOfBounds.txt", Tip = "Above The Dead Mesa"},
+		{Name = "Dead Mesa", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Mesa.txt", Tip = "Don't shoot! I'm with the science team!"},
+		{Name = "Lower Deadville", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Lower%20Deadville.txt", Tip = "Near the train tracks"},
+		{Name = "Old BDFS map", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Old%20BDFS", Tip = "It seems that mad has made a snapshot of the games history"},
+		{Name = "Sniper Shack", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Sniper%20Shack.txt", Tip = "Snipin's a good job mate."},
+		{Name = "Spawn Room", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Spawn%20Room", Tip = "The room your in while the game is still loading"},
+		{Name = "Upper Deadville", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Upper%20Deadville.txt", Tip = "The statue in the upper deadville"},
+		{Name = "Beam Room", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Beam%20Room", Tip = "Not very many people know about this room"},
+		{Name = "Bean Store", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Bean%20Store.txt", Tip = "Tasty!"},
+		{Name = "Pocket Dimension", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Catacombs", Tip = "A VERY obscure location, admins will send people here sometimes. each path has a chance of killing you, or teleporting you back into the real world. Based off of SCP 106, the old man."},
+		{Name = "Dead Burger", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Burger.txt", Tip = "Deadville inflation!!!!"}
+	},
+	["Trolling"] = {
+		{Name = "Super Ring Parts", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Misc/Super-Ring-Parts.txt", Tip = "Makes cars and graves fly around you. super cool."},
+		{Name = "Super Black Hole", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Misc/Black%20Hole", Tip = "its like the ring parts but a black hole"},
+		{Name = "telakanisis", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Misc/telekanisis.txt", Tip = "Mostly to bring the gokart from the deadmesa to above ground"}
+	},
+	["Quality Of Life"] = {
+		{Name = "Auto Rejoin", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Auto-Rejoin", Tip = "When you die, it rejoins the exact server you were in."},
+		{Name = "Fullbright", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/FullBright.txt", Tip = "Turns it to day. P to toggle"},
+		{Name = "Fake Happiness", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Happyness.txt", Tip = "Makes your screen saturated, as if you were happy."}
+
+	},
+	["Misc."] = {
+		{Name = "Zombify", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Become%20Zombie.txt", Tip = "Turns you into a zombie, and removes the blur effect automatically."},
+		{Name = "Invisibility", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Hacks/Invisiblity", Tip = "This will break your GUIs, but it somewhat works."},
+		{Name = "Buy Anything", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Purchase%20Anything", Tip = "Open the purchase GUI, then click this button. You will get negative deadcoins."}
+	}
+}
+
+local tabs = {}
+
+local function showTab(name)
+	for _, frame in pairs(tabs) do
+		frame.Visible = false
+	end
+	if tabs[name] then
+		tabs[name].Visible = true
+	end
+end
+
+local i = 0
+for tabName, scripts in pairs(tabData) do
+	i += 1
+	local btn = Instance.new("TextButton", sidebar)
+	btn.Size = UDim2.new(1, 0, 0, 40)
+	btn.Position = UDim2.new(0, 0, 0, (i - 1) * 40)
+	btn.Text = tabName
+	btn.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+	btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+	btn.BorderSizePixel = 0
+
+	local tabFrame = Instance.new("Frame", contentFrame)
+	tabFrame.Size = UDim2.new(1, 0, 1, 0)
+	tabFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	tabFrame.Visible = false
+	tabs[tabName] = tabFrame
+
+	for j, data in ipairs(scripts) do
+		local scriptBtn = Instance.new("TextButton", tabFrame)
+		scriptBtn.Size = UDim2.new(0, 250, 0, 30)
+		scriptBtn.Position = UDim2.new(0, 20, 0, 20 + (j - 1) * 40)
+		scriptBtn.Text = data.Name
+		scriptBtn.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+		scriptBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+		scriptBtn.BorderSizePixel = 0
+
+		scriptBtn.MouseButton1Click:Connect(function()
+			local success, err = pcall(function()
+				loadstring(game:HttpGet(data.URL, true))()
+			end)
+			if not success then
+				warn("Error loading script:", err)
+			end
+		end)
+
+		scriptBtn.MouseEnter:Connect(function()
+			tooltip.Text = data.Tip or "No description"
+			tooltip.Visible = true
+		end)
+		scriptBtn.MouseLeave:Connect(function()
+			tooltip.Visible = false
+		end)
+	end
+
+	btn.MouseButton1Click:Connect(function()
+		showTab(tabName)
+	end)
+end
+
+local sidebarOpen = true
+
+hamburger.MouseButton1Click:Connect(function()
+	sidebarOpen = not sidebarOpen
+	local size = sidebarOpen and 120 or 0
+	local offset = sidebarOpen and 120 or 30
+
+	sidebar:TweenSize(UDim2.new(0, size, 1, -30), "Out", "Quad", 0.3, true)
+	contentFrame:TweenPosition(UDim2.new(0, offset, 0, 30), "Out", "Quad", 0.3, true)
+	contentFrame:TweenSize(UDim2.new(1, -offset, 1, -30), "Out", "Quad", 0.3, true)
+
+	for _, child in ipairs(sidebar:GetChildren()) do
+		if child:IsA("TextButton") then
+			child.Visible = sidebarOpen
+		end
+	end
+end)
+
+showTab("Welcome!")
