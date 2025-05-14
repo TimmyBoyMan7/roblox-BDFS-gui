@@ -1,0 +1,25 @@
+local Players = game:GetService("Players")
+local TeleportService = game:GetService("TeleportService")
+local player = Players.LocalPlayer
+
+local function rejoinServer()
+    local gameId = game.PlaceId
+    local serverId = game.JobId
+    TeleportService:TeleportToPlaceInstance(gameId, serverId, player)
+end
+
+local function onCharacterAdded(char)
+    local humanoid = char:WaitForChild("Humanoid", 5)
+    if humanoid then
+        humanoid.Died:Connect(function()
+            task.wait(1) -- Optional wait to ensure clean rejoin
+            rejoinServer()
+        end)
+    end
+end
+
+if player.Character then
+    onCharacterAdded(player.Character)
+end
+
+player.CharacterAdded:Connect(onCharacterAdded)
