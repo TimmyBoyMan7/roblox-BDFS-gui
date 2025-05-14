@@ -120,7 +120,9 @@ local tabData = {
 		{Name = "Zombify", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Become%20Zombie.txt", Tip = "Turns you into a zombie, and removes the blur effect automatically."},
 		{Name = "Invisibility", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Hacks/Invisiblity", Tip = "This will break your GUIs, but it somewhat works."},
 		{Name = "Buy Anything", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Purchase%20Anything", Tip = "Open the purchase GUI, then click this button. You will get negative deadcoins."}
-	}
+	},
+["Farms"] = {
+		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Become%20Zombie.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
 }
 
 local tabs = {}
