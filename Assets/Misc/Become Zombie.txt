@@ -39,7 +39,7 @@ local function fakeoutThenAntiblur(customPosition)
 	Workspace.FallenPartsDestroyHeight = originalDestroyHeight
 	removeBlurEffects(
 	RunService.RenderStepped:Connect(removeBlurEffects)
-end
+end)
 
 
 fakeoutThenAntiblur(Vector3.new(358.5, -8, -352.5))  -- Change this to your preferred fakeout location
