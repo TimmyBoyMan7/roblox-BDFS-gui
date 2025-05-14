@@ -123,6 +123,7 @@ local tabData = {
 	},
 ["Farms"] = {
 		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
+	}
 }
 
 local tabs = {}
