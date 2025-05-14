@@ -1,0 +1,32 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+local function getBasePosition()
+	local hrp = Character:FindFirstChild("HumanoidRootPart")
+	if not hrp then return nil end
+	return hrp.CFrame + hrp.CFrame.LookVector * 2
+end
+
+-- Get base position 5 studs in front of player
+local baseCFrame = getBasePosition()
+if not baseCFrame then return end
+
+-- Counter for horizontal offset
+local index = 0
+
+for _, computer in ipairs(workspace:GetDescendants()) do
+	if computer:IsA("Model") and computer.Name == "Computer" then
+		local monitor = computer:FindFirstChild("Monitor")
+		if monitor and monitor:IsA("Model") then
+			for _, part in ipairs(monitor:GetDescendants()) do
+				if part:IsA("BasePart") and part:FindFirstChildWhichIsA("ClickDetector") then
+					-- Offset each part horizontally (right of player) by 3 studs
+					local offset = baseCFrame.RightVector * (index * 1)
+					part.CFrame = CFrame.new(baseCFrame.Position + offset)
+					index += 1
+				end
+			end
+		end
+	end
+end
