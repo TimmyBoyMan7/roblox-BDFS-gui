@@ -1,0 +1,50 @@
+local RunService = game:GetService("RunService")
+local Lighting = game:GetService("Lighting")
+local UserInputService = game:GetService("UserInputService")
+
+local brightLoop
+local isFullBrightEnabled = false  -- Track whether full-bright mode is active
+
+-- Function to start the full-bright loop
+local function startFullBrightLoop()
+    if brightLoop then
+        brightLoop:Disconnect()  -- Disconnect any previous loop
+    end
+
+    local function brightFunc()
+        Lighting.Brightness = 2
+        Lighting.ClockTime = 14
+        Lighting.FogEnd = 100000
+        Lighting.GlobalShadows = false
+        Lighting.OutdoorAmbient = Color3.fromRGB(128, 128, 128)
+    end
+
+    -- Connect the function to RenderStepped for continuous update
+    brightLoop = RunService.RenderStepped:Connect(brightFunc)
+end
+
+-- Function to stop the full-bright loop
+local function stopFullBrightLoop()
+    if brightLoop then
+        brightLoop:Disconnect()  -- Disconnect the loop if it exists
+    end
+end
+
+-- Toggle function: Toggle full-bright on or off when P is pressed
+local function toggleFullBright()
+    if isFullBrightEnabled then
+        stopFullBrightLoop()  -- Stop the loop
+    else
+        startFullBrightLoop()  -- Start the loop
+    end
+    isFullBrightEnabled = not isFullBrightEnabled  -- Toggle the state
+end
+
+-- Listen for P key press to toggle the full-bright effect
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end  -- Ignore input if the game is processing it (e.g., in chat)
+    
+    if input.KeyCode == Enum.KeyCode.P then
+        toggleFullBright()  -- Toggle the effect on P press
+    end
+end)
