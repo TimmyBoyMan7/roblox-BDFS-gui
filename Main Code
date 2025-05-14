@@ -122,7 +122,7 @@ local tabData = {
 		{Name = "Buy Anything", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Purchase%20Anything", Tip = "Open the purchase GUI, then click this button. You will get negative deadcoins."}
 	},
 ["Farms"] = {
-		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Become%20Zombie.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
+		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
 }
 
 local tabs = {}
