@@ -37,9 +37,9 @@ local function fakeoutThenAntiblur(customPosition)
 	task.wait(1)
 	root.CFrame = originalCFrame
 	Workspace.FallenPartsDestroyHeight = originalDestroyHeight
-	removeBlurEffects(
+	removeBlurEffects()
 	RunService.RenderStepped:Connect(removeBlurEffects)
-end)
+end
 
 
 fakeoutThenAntiblur(Vector3.new(358.5, -8, -352.5))  -- Change this to your preferred fakeout location
