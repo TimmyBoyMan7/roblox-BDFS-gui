@@ -32,9 +32,9 @@ local function fakeoutThenAntiblur(customPosition)
 	local originalCFrame = root.CFrame
 	local originalDestroyHeight = Workspace.FallenPartsDestroyHeight
 	Workspace.FallenPartsDestroyHeight = -math.huge
-	local targetPosition = customPosition or Vector3.new(0, -5000, 0)
+	local targetPosition = customPosition or Vector3.new(358.5, -8, -352.5)
 	root.CFrame = CFrame.new(targetPosition)
-	task.wait(0.1)
+	task.wait(0.01)
 	root.CFrame = originalCFrame
 	Workspace.FallenPartsDestroyHeight = originalDestroyHeight
 	removeBlurEffects()
