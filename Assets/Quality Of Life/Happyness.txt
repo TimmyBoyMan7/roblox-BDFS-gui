@@ -1,0 +1,15 @@
+local player = game.Players.LocalPlayer
+
+while true do
+    local char = player.Character or player.CharacterAdded:Wait()
+    local valuesFolder = char:FindFirstChild("Values")
+    
+    if valuesFolder then
+        local joyValue = valuesFolder:FindFirstChild("Joy")
+        if joyValue and joyValue:IsA("NumberValue") then
+            joyValue.Value = 100
+        end
+    end
+    
+    wait(0.1)
+end
