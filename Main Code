@@ -6,7 +6,7 @@ gui.Name = "BDFS gui"
 gui.ResetOnSpawn = false
 
 local mainFrame = Instance.new("Frame", gui)
-mainFrame.Size = UDim2.new(0, 800, 0, 600) 
+mainFrame.Size = UDim2.new(0, 400, 0, 600) 
 mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.BorderSizePixel = 0
