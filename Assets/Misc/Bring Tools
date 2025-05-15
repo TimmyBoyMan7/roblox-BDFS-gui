@@ -1,0 +1,160 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local root = character:WaitForChild("HumanoidRootPart")
+
+local partClasses = {
+	Food = {"burgre", "coffee", "Pizza", "cola", "medkit"},
+	Weapons = {"awp", "c4", "Knife", "shotgun"},
+	Misc = {"sign", "lemonade", "dread", "glee", "NewsPaper"}
+}
+
+
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "PartBringerGUI"
+screenGui.ResetOnSpawn = false
+
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 300, 0, 200)
+frame.Position = UDim2.new(0.35, 0, 0.35, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+Instance.new("UICorner", frame)
+
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, -35, 0, 30)
+title.Position = UDim2.new(0, 5, 0, 5)
+title.Text = "Part Bringer"
+title.TextColor3 = Color3.new(1, 1, 1)
+title.BackgroundTransparency = 1
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 20
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+local closeBtn = Instance.new("TextButton", frame)
+closeBtn.Size = UDim2.new(0, 25, 0, 25)
+closeBtn.Position = UDim2.new(1, -30, 0, 5)
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.SourceSansBold
+closeBtn.TextSize = 18
+closeBtn.TextColor3 = Color3.new(1, 1, 1)
+closeBtn.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+Instance.new("UICorner", closeBtn)
+
+closeBtn.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local dropdown = Instance.new("TextButton", frame)
+dropdown.Size = UDim2.new(0, 260, 0, 30)
+dropdown.Position = UDim2.new(0, 20, 0, 45)
+dropdown.Text = "Select Class"
+dropdown.Font = Enum.Font.SourceSans
+dropdown.TextSize = 18
+dropdown.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+dropdown.TextColor3 = Color3.new(1, 1, 1)
+dropdown.ZIndex = 2
+Instance.new("UICorner", dropdown)
+
+local selectedClass = nil
+
+
+local dropFrame = Instance.new("Frame", frame)
+dropFrame.Size = UDim2.new(0, 260, 0, 0)
+dropFrame.Position = dropdown.Position + UDim2.new(0, 0, 0, 30)
+dropFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+dropFrame.Visible = false
+dropFrame.ClipsDescendants = true
+dropFrame.ZIndex = 3
+Instance.new("UICorner", dropFrame)
+
+local function toggleDropdown()
+	dropFrame.Visible = not dropFrame.Visible
+	dropFrame.Size = dropFrame.Visible and UDim2.new(0, 260, 0, 90) or UDim2.new(0, 260, 0, 0)
+end
+
+dropdown.MouseButton1Click:Connect(toggleDropdown)
+
+
+local yOffset = 0
+for className, _ in pairs(partClasses) do
+	local option = Instance.new("TextButton", dropFrame)
+	option.Size = UDim2.new(1, 0, 0, 30)
+	option.Position = UDim2.new(0, 0, 0, yOffset)
+	option.Text = className
+	option.Font = Enum.Font.SourceSans
+	option.TextSize = 18
+	option.BackgroundColor3 = Color3.fromRGB(70, 70, 70)
+	option.TextColor3 = Color3.new(1, 1, 1)
+	option.ZIndex = 4
+	Instance.new("UICorner", option)
+
+	option.MouseButton1Click:Connect(function()
+		selectedClass = className
+		dropdown.Text = className
+		toggleDropdown()
+	end)
+
+	yOffset = yOffset + 30
+end
+
+
+local bringBtn = Instance.new("TextButton", frame)
+bringBtn.Size = UDim2.new(0, 260, 0, 35)
+bringBtn.Position = UDim2.new(0, 20, 0, 145)
+bringBtn.Text = "Bring Parts"
+bringBtn.Font = Enum.Font.SourceSansBold
+bringBtn.TextSize = 20
+bringBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+bringBtn.TextColor3 = Color3.new(1, 1, 1)
+Instance.new("UICorner", bringBtn)
+
+
+local function bringParts()
+	if not selectedClass or not partClasses[selectedClass] then
+		warn("Select a valid class first")
+		return
+	end
+
+	local nameList = partClasses[selectedClass]
+	local mainFolder = workspace:FindFirstChild("Buyables")
+	if not mainFolder then
+		warn("'Buyables' folder not found")
+		return
+	end
+
+	local subFolder = mainFolder:FindFirstChild("Tools")
+	if not subFolder then
+		warn("'Tools' folder not found inside 'Buyables'")
+		return
+	end
+
+	local matchedParts = {}
+	for _, part in ipairs(subFolder:GetDescendants()) do
+		if part:IsA("BasePart") then
+			for _, validName in ipairs(nameList) do
+				if part.Name == validName then
+					table.insert(matchedParts, part)
+					break
+				end
+			end
+		end
+	end
+
+	local radius = 10
+	local center = root.Position
+	local count = #matchedParts
+
+	for i, part in ipairs(matchedParts) do
+		local angle = (2 * math.pi / count) * i
+		local offset = Vector3.new(math.cos(angle) * radius, 3, math.sin(angle) * radius)
+		part.CFrame = CFrame.new(center + offset)
+		part.Transparency = 0
+	end
+end
+
+bringBtn.MouseButton1Click:Connect(bringParts)
