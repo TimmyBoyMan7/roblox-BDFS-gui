@@ -11,7 +11,7 @@ local partClasses = {
 
 
 local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "PartBringerGUI"
+screenGui.Name = "ToolBringerGui"
 screenGui.ResetOnSpawn = false
 
 
@@ -106,7 +106,7 @@ end
 local bringBtn = Instance.new("TextButton", frame)
 bringBtn.Size = UDim2.new(0, 260, 0, 35)
 bringBtn.Position = UDim2.new(0, 20, 0, 145)
-bringBtn.Text = "Bring Parts"
+bringBtn.Text = "Bring Tools"
 bringBtn.Font = Enum.Font.SourceSansBold
 bringBtn.TextSize = 20
 bringBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
