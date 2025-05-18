@@ -113,7 +113,8 @@ local tabData = {
 	["Quality Of Life"] = {
 		{Name = "Auto Rejoin", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Auto-Rejoin", Tip = "When you die, it rejoins the exact server you were in."},
 		{Name = "Fullbright", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/FullBright.txt", Tip = "Turns it to day. P to toggle"},
-		{Name = "Fake Happiness", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Happyness.txt", Tip = "Makes your screen saturated, as if you were happy."}
+		{Name = "Fake Happiness", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Happyness.txt", Tip = "Makes your screen saturated, as if you were happy."},
+		{Name = "Remove Corpses", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Quality%20Of%20Life/Remove%20corpses", Tip = "Removes all Corpses"}
 
 	},
 	["Misc."] = {
