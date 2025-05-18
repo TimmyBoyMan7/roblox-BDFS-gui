@@ -1,0 +1,163 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+
+local toolName = "Garbage Bag"
+local torsoOffset = Vector3.new(1.45, 0.25, -1.5)
+
+-- Sphere Generation
+local function generateSpherePositions(n, radius)
+	local positions = {}
+	local phi = math.pi * (3 - math.sqrt(5)) -- golden angle
+
+	for i = 0, n - 1 do
+		local y = 1 - (i / (n - 1)) * 2
+		local r = math.sqrt(1 - y * y)
+		local theta = phi * i
+
+		local x = math.cos(theta) * r
+		local z = math.sin(theta) * r
+
+		table.insert(positions, Vector3.new(x, y, z) * radius)
+	end
+
+	return positions
+end
+
+-- Equip Garbage Bags
+local function equipGarbageBags()
+	for _, tool in ipairs(player.Backpack:GetChildren()) do
+		if tool:IsA("Tool") and tool.Name == toolName then
+			tool.Parent = character
+			task.wait()
+		end
+	end
+end
+
+-- GUI Creation
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "GarbageBagSphereGUI"
+screenGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 280, 0, 140)
+frame.Position = UDim2.new(0.3, 0, 0.3, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, -30, 0, 25)
+title.Position = UDim2.new(0, 5, 0, 0)
+title.Text = "Become A Garbage Bag"
+title.BackgroundTransparency = 1
+title.TextColor3 = Color3.new(1, 1, 1)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+
+local close = Instance.new("TextButton", frame)
+close.Size = UDim2.new(0, 25, 0, 25)
+close.Position = UDim2.new(1, -30, 0, 0)
+close.Text = "X"
+close.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+close.TextColor3 = Color3.new(1, 1, 1)
+close.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local toggle = Instance.new("TextButton", frame)
+toggle.Size = UDim2.new(0, 240, 0, 35)
+toggle.Position = UDim2.new(0.5, -120, 0, 30)
+toggle.Text = "Start"
+toggle.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+toggle.TextColor3 = Color3.new(1, 1, 1)
+toggle.Font = Enum.Font.SourceSansBold
+toggle.TextSize = 20
+
+local sliderBackground = Instance.new("Frame", frame)
+sliderBackground.Size = UDim2.new(0, 240, 0, 20)
+sliderBackground.Position = UDim2.new(0.5, -120, 0, 75)
+sliderBackground.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+
+local sliderButton = Instance.new("TextButton", sliderBackground)
+sliderButton.Size = UDim2.new(0, 10, 1, 0)
+sliderButton.Position = UDim2.new(0.5, -5, 0, 0)
+sliderButton.Text = ""
+sliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+
+local radiusLabel = Instance.new("TextLabel", frame)
+radiusLabel.Size = UDim2.new(1, 0, 0, 20)
+radiusLabel.Position = UDim2.new(0, 0, 1, -20)
+radiusLabel.Text = "Radius: 3"
+radiusLabel.BackgroundTransparency = 1
+radiusLabel.TextColor3 = Color3.new(1, 1, 1)
+radiusLabel.Font = Enum.Font.SourceSans
+radiusLabel.TextSize = 16
+
+-- Variables
+local radius = 3
+local dragging = false
+local enabled = false
+
+-- Toggle Logic
+toggle.MouseButton1Click:Connect(function()
+	enabled = not enabled
+	toggle.Text = enabled and "Stop" or "Start"
+	toggle.BackgroundColor3 = enabled and Color3.fromRGB(180, 60, 60) or Color3.fromRGB(0, 120, 0)
+end)
+
+-- Slider Logic
+local function updateSlider(inputX)
+	local absPos = sliderBackground.AbsolutePosition.X
+	local absSize = sliderBackground.AbsoluteSize.X
+	local rel = math.clamp((inputX - absPos) / absSize, 0, 1)
+
+	sliderButton.Position = UDim2.new(rel, -5, 0, 0)
+	radius = math.floor(rel * 10 * 10) / 10 + 1 -- 1–11
+	radiusLabel.Text = "Radius: " .. tostring(radius)
+end
+
+sliderButton.InputBegan:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = true
+	end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+	if input.UserInputType == Enum.UserInputType.MouseButton1 then
+		dragging = false
+	end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+	if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+		updateSlider(input.Position.X)
+	end
+end)
+
+-- Main Loop
+RunService.RenderStepped:Connect(function()
+	if not enabled then return end
+
+	local torso = character:FindFirstChild("Torso") or character:FindFirstChild("UpperTorso")
+	if not torso then return end
+
+	-- Equip all bags
+	equipGarbageBags()
+
+	local tools = {}
+	for _, tool in ipairs(character:GetChildren()) do
+		if tool:IsA("Tool") and tool.Name == toolName and tool:FindFirstChild("Handle") then
+			table.insert(tools, tool)
+		end
+	end
+
+	local offsets = generateSpherePositions(#tools, radius)
+	for i, tool in ipairs(tools) do
+		local offset = offsets[i] or Vector3.new(0, 0, 0)
+		-- Apply torsoOffset here by adding it to the position before assigning grip
+		tool.Grip = CFrame.new(offset + torsoOffset)
+	end
+end)
