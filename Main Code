@@ -130,6 +130,7 @@ local tabData = {
 		{Name = "Garbage Bag Head", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Bag%20Head.txt", Tip = "Have 1 garbage bag in your hotbar, then run."},
 		{Name = "Garbage Bag Gyatt", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Gyatt.txt", Tip = "Equip a garbage bag, hold down lcontrol, then click the garbage can again to get 2 garbage bags."},
 		{Name = "Garbage Bag PP", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/What.txt", Tip = "Equip a garbage bag, hold down lcontrol, then click the garbage can again to get 2 garbage bags."},
+		{Name = "Garbage Bag Pregnant", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Preg", Tip = "WHAT"},
 		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"}
 	},
 }
