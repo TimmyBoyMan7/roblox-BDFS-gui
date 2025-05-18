@@ -1,0 +1,15 @@
+local stuff = workspace:FindFirstChild("StuffOfTheDead")
+if not stuff then
+	warn("StuffOfTheDead folder not found")
+	return
+end
+
+local corpses = stuff:FindFirstChild("Corpses")
+if not corpses then
+	warn("Corpses folder not found inside StuffOfTheDead")
+	return
+end
+
+for _, child in ipairs(corpses:GetChildren()) do
+	child:Destroy()
+end
