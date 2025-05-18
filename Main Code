@@ -128,9 +128,11 @@ local tabData = {
 	},
 ["Garbage Bags"] = {
 		{Name = "Garbage Bag Head", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Bag%20Head.txt", Tip = "Have 1 garbage bag in your hotbar, then run."},
-		{Name = "Garbage Bag Gyatt", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Gyatt.txt", Tip = "Equip a garbage bag, hold down lcontrol, then click the garbage can again to get 2 garbage bags."},
-		{Name = "Garbage Bag PP", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/What.txt", Tip = "Equip a garbage bag, hold down lcontrol, then click the garbage can again to get 2 garbage bags."},
-		{Name = "Garbage Bag Pregnant", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Preg", Tip = "WHAT"},
+		{Name = "Garbage Bag Gyatt", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Gyatt.txt", Tip = "You need 2 garbage bags for this"},
+		{Name = "Garbage Bag PP", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/What.txt", Tip = "You need 5 garbage bags for this."},
+		{Name = "Garbage Bag Pregnant", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Preg", Tip = "Have 1 garbage bag in your hotbar, then run."},
+		{Name = "Infinite Garbage Bags", URL = "https://github.com/TimmyBoyMan7/roblox-BDFS-gui/raw/refs/heads/main/Assets/Garbage%20Bags/Inf%20Garbage%20Bags", Tip = "Hold down leftControl, and click the garbage bin while this is running"},
+		{Name = "Remove garbage bags", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Remove%20Garbage%20Bags", Tip = "Do you need an explanation"},
 		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"}
 	},
 }
