@@ -6,17 +6,13 @@ local character = player.Character or player.CharacterAdded:Wait()
 
 
 local garbageBagGrips = {
-	CFrame.new(1.7, -0.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.7, -1.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.7, -2.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.05, 0.5, -1.3),
-    	CFrame.new(2.15, 0.4, -1.2),
+    CFrame.new(1.05, 0.5, -1.5),
+    CFrame.new(2.15, 0.4, -1.4),
 }
 
 
-
 local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "Garbage Bag pp"
+screenGui.Name = "Juicy ahh gyatt GUI"
 screenGui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame", screenGui)
@@ -30,7 +26,7 @@ frame.Draggable = true
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1, 0, 0, 25)
 title.BackgroundTransparency = 1
-title.Text = "Garbage Bag pp"
+title.Text = "Gyatt!!!!!!!!"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.SourceSansBold
 title.TextSize = 18
