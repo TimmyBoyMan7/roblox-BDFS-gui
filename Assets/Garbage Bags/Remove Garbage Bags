@@ -1,0 +1,18 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+
+-- Remove Garbage Bags from Backpack
+for _, tool in ipairs(player.Backpack:GetChildren()) do
+	if tool:IsA("Tool") and tool.Name == "Garbage Bag" then
+		tool:Destroy()
+	end
+end
+
+-- Remove Garbage Bags from Character (equipped)
+if player.Character then
+	for _, tool in ipairs(player.Character:GetChildren()) do
+		if tool:IsA("Tool") and tool.Name == "Garbage Bag" then
+			tool:Destroy()
+		end
+	end
+end
