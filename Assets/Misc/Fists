@@ -1,0 +1,111 @@
+-- Services
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+local Humanoid = Character:WaitForChild("Humanoid")
+
+-- Tool Creation
+local fistsTool = Instance.new("Tool")
+fistsTool.Name = "Fists"
+fistsTool.RequiresHandle = false
+fistsTool.CanBeDropped = false
+fistsTool.Parent = LocalPlayer.Backpack
+
+-- Animations
+local Animations = {
+	Punch = "rbxassetid://181262679",
+	Scratch = "rbxassetid://73101021",
+	LoopPunch = "rbxassetid://126753849",
+}
+
+local function loadAnimation(id)
+	local anim = Instance.new("Animation")
+	anim.AnimationId = id
+	return Humanoid:LoadAnimation(anim)
+end
+
+-- Loop punch control
+local loopPunching = false
+local currentLoopAnim = nil
+
+-- Keybind GUI
+local function showKeybindGui()
+	local keybindGui = Instance.new("ScreenGui", PlayerGui)
+	keybindGui.Name = "KeybindInfoGui"
+
+	local frame = Instance.new("Frame", keybindGui)
+	frame.Size = UDim2.new(0, 220, 0, 160)
+	frame.Position = UDim2.new(0.05, 0, 0.3, 0)
+	frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+	frame.Active = true
+	frame.Draggable = true
+
+	local label = Instance.new("TextLabel", frame)
+	label.Size = UDim2.new(1, 0, 0, 20)
+	label.Text = "Fists Keybinds:"
+	label.TextColor3 = Color3.new(1, 1, 1)
+	label.BackgroundTransparency = 1
+	label.Font = Enum.Font.SourceSansBold
+	label.TextSize = 16
+
+	local function addKeybindInfo(text, posY)
+		local info = Instance.new("TextLabel", frame)
+		info.Size = UDim2.new(1, -10, 0, 20)
+		info.Position = UDim2.new(0, 5, 0, posY)
+		info.Text = text
+		info.TextColor3 = Color3.new(1, 1, 1)
+		info.BackgroundTransparency = 1
+		info.Font = Enum.Font.SourceSans
+		info.TextSize = 14
+	end
+
+	addKeybindInfo("E - Punch", 25)
+	addKeybindInfo("R - Scratch", 45)
+	addKeybindInfo("T - Loop Punch", 65)
+	addKeybindInfo("F - Block", 85)
+end
+
+showKeybindGui()
+
+-- Tool Logic
+fistsTool.Equipped:Connect(function()
+	print("Fists equipped.")
+end)
+
+fistsTool.Unequipped:Connect(function()
+	if loopPunching and currentLoopAnim then
+		currentLoopAnim:Stop()
+	end
+	loopPunching = false
+	currentLoopAnim = nil
+end)
+
+-- Keybinds
+UIS.InputBegan:Connect(function(input, gpe)
+	if gpe or not fistsTool:IsDescendantOf(Character) then return end
+
+	if input.KeyCode == Enum.KeyCode.E then
+		loadAnimation(Animations.Punch):Play()
+
+	elseif input.KeyCode == Enum.KeyCode.R then
+		loadAnimation(Animations.Scratch):Play()
+
+	elseif input.KeyCode == Enum.KeyCode.T then
+		if not loopPunching then
+			currentLoopAnim = loadAnimation(Animations.LoopPunch)
+			currentLoopAnim.Looped = true
+			currentLoopAnim:Play()
+			loopPunching = true
+		else
+			if currentLoopAnim then currentLoopAnim:Stop() end
+			loopPunching = false
+		end
+
+	elseif input.KeyCode == Enum.KeyCode.F then
+		loadAnimation(Animations.Block):Play()
+	end
+end)
