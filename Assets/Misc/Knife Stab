@@ -1,0 +1,102 @@
+-- Services
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+local Character = LocalPlayer.Character or LocalPlayer.CharacterAdded:Wait()
+
+-- Bound Tool
+local boundToolName = "knife"
+local currentSlash = 1
+
+-- Animations
+local Animations = {
+	Equip = "rbxassetid://94160581",
+	Unequip = "rbxassetid://94095929",
+	Slash = {
+		"rbxassetid://54673790",
+		"rbxassetid://54584713"
+	},
+	Taunt = "rbxassetid://161099825",
+	Death = "rbxassetid://57720291"
+}
+
+local function loadAnimation(id)
+	local anim = Instance.new("Animation")
+	anim.AnimationId = id
+	return Character:WaitForChild("Humanoid"):LoadAnimation(anim)
+end
+
+-- Show keybind info
+local function showKeybindGui()
+	local keybindGui = Instance.new("ScreenGui", PlayerGui)
+	keybindGui.Name = "KeybindInfoGui"
+
+	local frame = Instance.new("Frame", keybindGui)
+	frame.Size = UDim2.new(0, 200, 0, 160)
+	frame.Position = UDim2.new(0.05, 0, 0.3, 0)
+	frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+	frame.Active = true
+	frame.Draggable = true
+
+	local label = Instance.new("TextLabel", frame)
+	label.Size = UDim2.new(1, 0, 0, 20)
+	label.Text = "Keybinds:"
+	label.TextColor3 = Color3.new(1, 1, 1)
+	label.BackgroundTransparency = 1
+
+	local function addKeybindInfo(text, posY)
+		local info = Instance.new("TextLabel", frame)
+		info.Size = UDim2.new(1, -10, 0, 20)
+		info.Position = UDim2.new(0, 5, 0, posY)
+		info.Text = text
+		info.TextColor3 = Color3.new(1, 1, 1)
+		info.BackgroundTransparency = 1
+	end
+
+	addKeybindInfo("E - Slash", 25)
+	addKeybindInfo("T - Taunt", 45)
+	addKeybindInfo("K - Die", 65)
+end
+
+showKeybindGui()
+
+-- Bind tool animations when equipped
+LocalPlayer.Backpack.ChildAdded:Connect(function(tool)
+	if tool:IsA("Tool") and tool.Name == boundToolName then
+		tool.Equipped:Connect(function()
+			local hum = Character:FindFirstChild("Humanoid")
+			if hum then
+				loadAnimation(Animations.Equip):Play()
+			end
+		end)
+
+		tool.Unequipped:Connect(function()
+			loadAnimation(Animations.Unequip):Play()
+		end)
+	end
+end)
+
+-- Keybinds
+UIS.InputBegan:Connect(function(input, gpe)
+	if gpe then return end
+
+	local hum = Character:FindFirstChild("Humanoid")
+	if not hum then return end
+
+	local toolEquipped = Character:FindFirstChild(boundToolName)
+
+	if input.KeyCode == Enum.KeyCode.E and toolEquipped then
+		local animId = Animations.Slash[currentSlash]
+		loadAnimation(animId):Play()
+		currentSlash = currentSlash % #Animations.Slash + 1
+
+	elseif input.KeyCode == Enum.KeyCode.T then
+		loadAnimation(Animations.Taunt):Play()
+
+	elseif input.KeyCode == Enum.KeyCode.K then
+		loadAnimation(Animations.Death):Play()
+		task.wait(1.5)
+		hum.Health = 0
+	end
+end)
