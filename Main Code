@@ -128,14 +128,15 @@ local tabData = {
 ["Farms"] = {
 		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
 	},
-["Garbage Bags"] = {
+["Garbage Bags/tools"] = {
 		{Name = "Garbage Bag Head", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Bag%20Head.txt", Tip = "Have 1 garbage bag in your hotbar, then run."},
 		{Name = "Garbage Bag Gyatt", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Gyatt.txt", Tip = "You need 2 garbage bags for this"},
 		{Name = "Garbage Bag PP", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/What.txt", Tip = "You need 5 garbage bags for this."},
 		{Name = "Become A Garbage Bag", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Become%20A%20Garbage%20Bag", Tip = "Uses every garbage bag you have to create a sphere around you"},
 		{Name = "Infinite Garbage Bags", URL = "https://github.com/TimmyBoyMan7/roblox-BDFS-gui/raw/refs/heads/main/Assets/Garbage%20Bags/Inf%20Garbage%20Bags", Tip = "Hold down leftControl, and click the garbage bin while this is running"},
 		{Name = "Remove garbage bags", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Remove%20Garbage%20Bags", Tip = "Do you need an explanation"},
-		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"}
+		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"},
+		{Name = "PlayerDestroyer9000", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/PlayerDestroyer9000", Tip = "PlayerDestroyer teleport"}
 	},
 }
 
