@@ -122,7 +122,8 @@ local tabData = {
 		{Name = "Invisibility", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Hacks/Invisiblity", Tip = "This will break your GUIs, but it somewhat works."},
 		{Name = "Buy Anything", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Purchase%20Anything", Tip = "Open the purchase GUI, then click this button. You will get negative deadcoins."},
 		{Name = "Bring Tools", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Bring%20Tools", Tip = "Bring tools GUI"},
-		{Name = ":fly", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/%3Afly", Tip = "Makes you fly, as if on the :fly pad"}
+		{Name = ":fly", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/%3Afly", Tip = "Makes you fly, as if on the :fly pad"},
+		{Name = "Animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations", Tip = "Funny animations"}
 	},
 ["Farms"] = {
 		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
