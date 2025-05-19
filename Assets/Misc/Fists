@@ -19,7 +19,7 @@ fistsTool.Parent = LocalPlayer.Backpack
 local Animations = {
 	Punch = "rbxassetid://181262679",
 	Scratch = "rbxassetid://73101021",
-	LoopPunch = "rbxassetid://126753849",
+	LoopPunch = "rbxassetid://126753849"
 }
 
 local function loadAnimation(id)
