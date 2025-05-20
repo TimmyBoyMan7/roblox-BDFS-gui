@@ -7,7 +7,7 @@ local humanoid = character:WaitForChild("Humanoid")
 local animations = {
     ["Bat Swing"] = 8830424363,
     ["Grenade Pull"] = 6351996331,
-    ["Fall"] = 6119665276,
+    ["Fall (LOOPING) "] = 6119665276,
     ["Goon"] = 507770677
 }
 
