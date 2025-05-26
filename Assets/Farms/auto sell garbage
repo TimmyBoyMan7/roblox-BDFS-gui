@@ -1,0 +1,38 @@
+--// Auto Touch "MoneyHitbox" every second
+
+local function fireTouch(part)
+    local lp = game.Players.LocalPlayer
+    if not lp.Character or not lp.Character:FindFirstChild("HumanoidRootPart") then return end
+
+    local hrp = lp.Character.HumanoidRootPart
+
+    firetouchinterest(part, hrp, 0)
+    firetouchinterest(part, hrp, 1)
+end
+
+-- Main loop
+spawn(function()
+    while true do
+        local success, err = pcall(function()
+            local buildings = workspace:FindFirstChild("Buildings")
+            if buildings then
+                local deadBurger = buildings:FindFirstChild("DeadBurger")
+                if deadBurger then
+                    local dumpster = deadBurger:FindFirstChild("DumpsterMoneyMaker")
+                    if dumpster then
+                        local hitbox = dumpster:FindFirstChild("MoneyHitbox")
+                        if hitbox and hitbox:IsA("BasePart") then
+                            fireTouch(hitbox)
+                        end
+                    end
+                end
+            end
+        end)
+        
+        if not success then
+            warn("Error firing touch:", err)
+        end
+
+        wait(1)
+    end
+end)
