@@ -1,0 +1,134 @@
+-- SERVICES
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UIS = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local camera = workspace.CurrentCamera
+
+-- GUI SETUP
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "ExploitControlGUI"
+screenGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 320, 0, 140)
+frame.Position = UDim2.new(0.35, 0, 0.4, 0)
+frame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundTransparency = 1
+title.Text = "Hold down left ctrl and autoclick the can"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+closeButton.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local toggleButton = Instance.new("TextButton", frame)
+toggleButton.Size = UDim2.new(0, 280, 0, 40)
+toggleButton.Position = UDim2.new(0.5, -140, 0, 50)
+toggleButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
+toggleButton.TextColor3 = Color3.new(1,1,1)
+toggleButton.Font = Enum.Font.SourceSansBold
+toggleButton.TextSize = 20
+toggleButton.Text = "Start"
+
+-- LOGIC FLAGS
+local enabled = false
+local rotationX, rotationY = 0, 0
+local cameraPos = Vector3.new(104, 23, 56)
+
+-- CAMERA CONTROL
+UIS.InputBegan:Connect(function(input, gpe)
+	if not enabled or gpe then return end
+
+	if input.KeyCode == Enum.KeyCode.Left then
+		rotationY = rotationY - 2
+	elseif input.KeyCode == Enum.KeyCode.Right then
+		rotationY = rotationY + 2
+	elseif input.KeyCode == Enum.KeyCode.Up then
+		rotationX = math.clamp(rotationX - 2, -80, 80)
+	elseif input.KeyCode == Enum.KeyCode.Down then
+		rotationX = math.clamp(rotationX + 2, -80, 80)
+	end
+end)
+
+-- BUTTON TOGGLE
+toggleButton.MouseButton1Click:Connect(function()
+	enabled = not enabled
+	toggleButton.Text = enabled and "Stop" or "Start"
+	toggleButton.BackgroundColor3 = enabled and Color3.fromRGB(180, 60, 60) or Color3.fromRGB(0, 150, 0)
+
+	if enabled then
+		camera.CameraType = Enum.CameraType.Scriptable
+		camera.CFrame = CFrame.new(cameraPos)
+		rotationX, rotationY = 0, 0
+	else
+		camera.CameraType = Enum.CameraType.Custom
+	end
+end)
+
+-- CAMERA UPDATE LOOP
+RunService.RenderStepped:Connect(function()
+	if enabled then
+		local rotation = CFrame.Angles(math.rad(rotationX), math.rad(rotationY), 0)
+		camera.CFrame = CFrame.new(cameraPos) * rotation
+	end
+end)
+
+-- AUTO-EQUIP LOOP
+RunService.RenderStepped:Connect(function()
+	if not enabled then return end
+
+	local character = player.Character
+	if not character then return end
+
+	for _, tool in ipairs(player.Backpack:GetChildren()) do
+		if tool:IsA("Tool") and tool.Name == "Garbage Bag" then
+			if tool.Parent ~= character then
+				tool.Parent = character
+			end
+		end
+	end
+end)
+
+-- AUTO TOUCH LOOP
+spawn(function()
+	while true do
+		if enabled then
+			pcall(function()
+				local buildings = workspace:FindFirstChild("Buildings")
+				if buildings then
+					local deadBurger = buildings:FindFirstChild("DeadBurger")
+					if deadBurger then
+						local dumpster = deadBurger:FindFirstChild("DumpsterMoneyMaker")
+						if dumpster then
+							local hitbox = dumpster:FindFirstChild("MoneyHitbox")
+							if hitbox and hitbox:IsA("BasePart") then
+								local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+								if hrp then
+									firetouchinterest(hitbox, hrp, 0)
+									firetouchinterest(hitbox, hrp, 1)
+								end
+							end
+						end
+					end
+				end
+			end)
+		end
+		wait(0.1)
+	end
+end)
