@@ -123,12 +123,14 @@ local tabData = {
 		{Name = "Buy Anything", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Purchase%20Anything", Tip = "Open the purchase GUI, then click this button. You will get negative deadcoins."},
 		{Name = "Bring Tools", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Bring%20Tools", Tip = "Bring tools GUI"},
 		{Name = ":fly", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/%3Afly", Tip = "Makes you fly, as if on the :fly pad"},
-		{Name = "Animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations", Tip = "Funny animations"},
+		{Name = "Fake animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations", Tip = "Funny animations"},
+		{Name = "Animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations", Tip = "THIS WILL LAG FOR A LITTLE! Grabs every animation in game and allows you to play them."},
 		{Name = "Stabby Knife", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Knife%20Stab", Tip = "Get a knife from the sniper shack, and this makes it look like its real"},
 		{Name = "Fists", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Fists", Tip = "Fake Fists"}
 	},
 ["Farms"] = {
-		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "}
+		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "},
+		{Name = "Auto Sell Garbage", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/auto%20sell%20garbage", Tip = "Equip a garbage bag, and this will sell it."}
 	},
 ["Garbage Bags/tools"] = {
 		{Name = "Garbage Bag Head", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Bag%20Head.txt", Tip = "Have 1 garbage bag in your hotbar, then run."},
