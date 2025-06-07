@@ -1,38 +1,83 @@
---// Auto Touch "MoneyHitbox" every second
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
 
+-- GUI setup
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "MoneyHitboxToucher"
+screenGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 250, 0, 100)
+frame.Position = UDim2.new(0.4, 0, 0.4, 0)
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 25)
+title.BackgroundTransparency = 1
+title.Text = "Auto-Sell garbage bags"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 18
+
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Size = UDim2.new(0, 25, 0, 25)
+closeButton.Position = UDim2.new(1, -30, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+closeButton.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local toggle = Instance.new("TextButton", frame)
+toggle.Size = UDim2.new(0, 200, 0, 35)
+toggle.Position = UDim2.new(0.5, -100, 0, 50)
+toggle.Text = "Start"
+toggle.TextColor3 = Color3.new(1, 1, 1)
+toggle.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
+toggle.Font = Enum.Font.SourceSansBold
+toggle.TextSize = 20
+
+-- Touch function
 local function fireTouch(part)
-    local lp = game.Players.LocalPlayer
-    if not lp.Character or not lp.Character:FindFirstChild("HumanoidRootPart") then return end
-
-    local hrp = lp.Character.HumanoidRootPart
-
-    firetouchinterest(part, hrp, 0)
-    firetouchinterest(part, hrp, 1)
+	local lp = game.Players.LocalPlayer
+	if not lp.Character or not lp.Character:FindFirstChild("HumanoidRootPart") then return end
+	local hrp = lp.Character.HumanoidRootPart
+	firetouchinterest(part, hrp, 0)
+	firetouchinterest(part, hrp, 1)
 end
 
--- Main loop
-spawn(function()
-    while true do
-        local success, err = pcall(function()
-            local buildings = workspace:FindFirstChild("Buildings")
-            if buildings then
-                local deadBurger = buildings:FindFirstChild("DeadBurger")
-                if deadBurger then
-                    local dumpster = deadBurger:FindFirstChild("DumpsterMoneyMaker")
-                    if dumpster then
-                        local hitbox = dumpster:FindFirstChild("MoneyHitbox")
-                        if hitbox and hitbox:IsA("BasePart") then
-                            fireTouch(hitbox)
-                        end
-                    end
-                end
-            end
-        end)
-        
-        if not success then
-            warn("Error firing touch:", err)
-        end
+-- Auto farm loop control
+local enabled = false
+toggle.MouseButton1Click:Connect(function()
+	enabled = not enabled
+	toggle.Text = enabled and "Stop" or "Start"
+	toggle.BackgroundColor3 = enabled and Color3.fromRGB(180, 60, 60) or Color3.fromRGB(0, 120, 0)
+end)
 
-        wait(1)
-    end
+-- Main loop
+task.spawn(function()
+	while true do
+		if enabled then
+			pcall(function()
+				local buildings = workspace:FindFirstChild("Buildings")
+				if buildings then
+					local deadBurger = buildings:FindFirstChild("DeadBurger")
+					if deadBurger then
+						local dumpster = deadBurger:FindFirstChild("DumpsterMoneyMaker")
+						if dumpster then
+							local hitbox = dumpster:FindFirstChild("MoneyHitbox")
+							if hitbox and hitbox:IsA("BasePart") then
+								fireTouch(hitbox)
+							end
+						end
+					end
+				end
+			end)
+		end
+		task.wait(1)
+	end
 end)
