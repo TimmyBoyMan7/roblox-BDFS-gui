@@ -1,0 +1,109 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- GUI Setup
+local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
+screenGui.Name = "Anims"
+screenGui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 350, 0, 400)
+frame.Position = UDim2.new(0.5, -175, 0.5, -200)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, 0, 0, 30)
+title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+title.Text = "Anims"
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.Font = Enum.Font.SourceSansBold
+title.TextSize = 20
+
+local closeButton = Instance.new("TextButton", frame)
+closeButton.Size = UDim2.new(0, 30, 0, 30)
+closeButton.Position = UDim2.new(1, -35, 0, 0)
+closeButton.Text = "X"
+closeButton.TextColor3 = Color3.new(1, 1, 1)
+closeButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
+closeButton.MouseButton1Click:Connect(function()
+	screenGui:Destroy()
+end)
+
+local scrollingFrame = Instance.new("ScrollingFrame", frame)
+scrollingFrame.Size = UDim2.new(1, -10, 1, -40)
+scrollingFrame.Position = UDim2.new(0, 5, 0, 35)
+scrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+scrollingFrame.ScrollBarThickness = 8
+scrollingFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+scrollingFrame.BorderSizePixel = 0
+scrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+scrollingFrame.ClipsDescendants = true
+
+local UIListLayout = Instance.new("UIListLayout", scrollingFrame)
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 4)
+
+-- Play/Stop logic
+local activeTracks = {}
+
+local function createButton(animation)
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(1, -10, 0, 30)
+	button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+	button.TextColor3 = Color3.new(1, 1, 1)
+	button.Font = Enum.Font.SourceSans
+	button.TextSize = 16
+	button.TextXAlignment = Enum.TextXAlignment.Left
+	button.Text = animation.Name ~= "" and animation.Name or "Unnamed Animation"
+	button.Text = button.Text .. " (" .. animation.AnimationId .. ")"
+	button.AutoButtonColor = true
+
+	local playing = false
+	local track
+
+	button.MouseButton1Click:Connect(function()
+		if playing and track then
+			track:Stop()
+			track:Destroy()
+			playing = false
+			button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+		else
+			if humanoid and animation.AnimationId ~= "" then
+				track = humanoid:LoadAnimation(animation)
+				track:Play()
+				playing = true
+				button.BackgroundColor3 = Color3.fromRGB(0, 170, 85)
+			end
+		end
+	end)
+
+	return button
+end
+
+-- Prevent duplicates
+local seenIds = {}
+
+-- Recursive scan with wait
+local function scanAnimations(obj)
+	for _, child in ipairs(obj:GetChildren()) do
+		if child:IsA("Animation") and child.AnimationId ~= "" then
+			if not seenIds[child.AnimationId] then
+				seenIds[child.AnimationId] = true
+				local btn = createButton(child)
+				btn.Parent = scrollingFrame
+				task.wait(0.05) -- light delay for performance
+			end
+		end
+		scanAnimations(child)
+	end
+end
+
+-- Start scan
+task.spawn(function()
+	scanAnimations(game)
+end)
