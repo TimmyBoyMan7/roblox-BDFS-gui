@@ -4,23 +4,23 @@ local RunService = game:GetService("RunService")
 local player = Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
 
-
-local garbageBagGrips = {
-	CFrame.new(1.7, -0.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.7, -1.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.7, -2.5, 1.5) * CFrame.Angles(math.rad(-270), 0, 0),
-	CFrame.new(1.05, 0.5, -1.3),
-    CFrame.new(2.15, 0.4, -1.2),
-}
-
-
+local function generateGrips(count)
+local grips = {}
+for i = 0, count - 1 do
+table.insert(grips, CFrame.new(1.7, -0.5 - i, 1.5) * CFrame.Angles(math.rad(-270), 0, 0))
+end
+-- Static side grips
+table.insert(grips, CFrame.new(1.05, 0.5, -1.3))
+table.insert(grips, CFrame.new(2.15, 0.4, -1.2))
+return grips
+end
 
 local screenGui = Instance.new("ScreenGui", player:WaitForChild("PlayerGui"))
-screenGui.Name = "Garbage Bag pp"
+screenGui.Name = "GarbageBagPP"
 screenGui.ResetOnSpawn = false
 
 local frame = Instance.new("Frame", screenGui)
-frame.Size = UDim2.new(0, 200, 0, 100)
+frame.Size = UDim2.new(0, 240, 0, 100)
 frame.Position = UDim2.new(0.3, 0, 0.3, 0)
 frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 frame.BorderSizePixel = 0
@@ -30,7 +30,7 @@ frame.Draggable = true
 local title = Instance.new("TextLabel", frame)
 title.Size = UDim2.new(1, 0, 0, 25)
 title.BackgroundTransparency = 1
-title.Text = "Garbage Bag pp"
+title.Text = "Garbage Bag PP"
 title.TextColor3 = Color3.fromRGB(255, 255, 255)
 title.Font = Enum.Font.SourceSansBold
 title.TextSize = 18
@@ -42,12 +42,12 @@ closeButton.Text = "X"
 closeButton.TextColor3 = Color3.new(1, 1, 1)
 closeButton.BackgroundColor3 = Color3.fromRGB(150, 0, 0)
 closeButton.MouseButton1Click:Connect(function()
-	screenGui:Destroy()
+screenGui:Destroy()
 end)
 
 local toggle = Instance.new("TextButton", frame)
-toggle.Size = UDim2.new(0, 160, 0, 35)
-toggle.Position = UDim2.new(0.5, -80, 0, 40)
+toggle.Size = UDim2.new(0, 200, 0, 40)
+toggle.Position = UDim2.new(0.5, -100, 0, 40)
 toggle.Text = "Start"
 toggle.TextColor3 = Color3.new(1, 1, 1)
 toggle.BackgroundColor3 = Color3.fromRGB(0, 120, 0)
@@ -57,34 +57,43 @@ toggle.TextSize = 20
 local enabled = false
 
 toggle.MouseButton1Click:Connect(function()
-	enabled = not enabled
-	toggle.Text = enabled and "Stop" or "Start"
-	toggle.BackgroundColor3 = enabled and Color3.fromRGB(180, 60, 60) or Color3.fromRGB(0, 120, 0)
+enabled = not enabled
+toggle.Text = enabled and "Stop" or "Start"
+toggle.BackgroundColor3 = enabled and Color3.fromRGB(180, 60, 60) or Color3.fromRGB(0, 120, 0)
 end)
 
-
 RunService.RenderStepped:Connect(function()
-	if not enabled then return end
+if not enabled then return end
 
-	local head = character:FindFirstChild("Head")
-	if not head then return end
 
-	local bagIndex = 0
+local head = character:FindFirstChild("Head")
+if not head then return end
 
-	-- Move bags from backpack to character
-	for _, tool in ipairs(player.Backpack:GetChildren()) do
-		if tool:IsA("Tool") and tool.Name == "Garbage Bag" then
-			tool.Parent = character
-			task.wait()
-		end
+-- Get all Garbage Bags from backpack and equip them
+for _, tool in ipairs(player.Backpack:GetChildren()) do
+	if tool:IsA("Tool") and tool.Name == "Garbage Bag" then
+		tool.Parent = character
+		task.wait()
 	end
+end
 
-	-- Apply CFrame grip for each equipped garbage bag
-	for _, tool in ipairs(character:GetChildren()) do
-		if tool:IsA("Tool") and tool.Name == "Garbage Bag" and tool:FindFirstChild("Handle") then
-			bagIndex += 1
-			local gripCFrame = garbageBagGrips[bagIndex] or CFrame.new(0, -2, 0)
-			tool.Grip = gripCFrame
-		end
+
+local garbageBags = {}
+for _, tool in ipairs(character:GetChildren()) do
+	if tool:IsA("Tool") and tool.Name == "Garbage Bag" and tool:FindFirstChild("Handle") then
+		table.insert(garbageBags, tool)
 	end
+end
+
+local totalBags = #garbageBags
+if totalBags == 0 then return end
+
+local verticalCount = math.max(totalBags - 2, 0)
+local grips = generateGrips(verticalCount)
+
+-- Apply grips to tools
+for i, tool in ipairs(garbageBags) do
+	local grip = grips[i] or CFrame.new(0, -2, 0)
+	tool.Grip = grip
+end
 end)
