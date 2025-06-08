@@ -96,11 +96,15 @@ RunService.RenderStepped:Connect(function()
 	end
 
 	-- Apply CFrame grip for each equipped garbage bag
-	for _, tool in ipairs(character:GetChildren()) do
-		if tool:IsA("Tool") and tool.Name == "Garbage Bag" and tool:FindFirstChild("Handle") then
-			bagIndex += 1
-			local gripCFrame = garbageBagGrips[bagIndex] or CFrame.new(0, 10, 0)
-			tool.Grip = gripCFrame
+for _, tool in ipairs(character:GetChildren()) do
+	if tool:IsA("Tool") and tool.Name == "Garbage Bag" and tool:FindFirstChild("Handle") then
+		bagIndex += 1
+		if garbageBagGrips[bagIndex] then
+			tool.Grip = garbageBagGrips[bagIndex]
+		else
+			-- Move extra garbage bags to (0, 100, 0)
+			tool.Grip = CFrame.new(0, 100, 0)
 		end
 	end
-end)
+end
+
