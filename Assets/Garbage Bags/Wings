@@ -99,7 +99,7 @@ RunService.RenderStepped:Connect(function()
 	for _, tool in ipairs(character:GetChildren()) do
 		if tool:IsA("Tool") and tool.Name == "Garbage Bag" and tool:FindFirstChild("Handle") then
 			bagIndex += 1
-			local gripCFrame = garbageBagGrips[bagIndex] or CFrame.new(0, -2, 0)
+			local gripCFrame = garbageBagGrips[bagIndex] or CFrame.new(0, 10, 0)
 			tool.Grip = gripCFrame
 		end
 	end
