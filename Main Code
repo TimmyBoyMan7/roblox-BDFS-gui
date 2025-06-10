@@ -6,7 +6,7 @@ gui.Name = "BDFS gui"
 gui.ResetOnSpawn = false
 
 local mainFrame = Instance.new("Frame", gui)
-mainFrame.Size = UDim2.new(0, 400, 0, 600) 
+mainFrame.Size = UDim2.new(0, 400, 0, 800) 
 mainFrame.Position = UDim2.new(0.5, -300, 0.5, -200)
 mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
 mainFrame.BorderSizePixel = 0
@@ -103,7 +103,9 @@ local tabData = {
 		{Name = "Beam Room", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Beam%20Room", Tip = "Not very many people know about this room"},
 		{Name = "Bean Store", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Bean%20Store.txt", Tip = "Tasty!"},
 		{Name = "Pocket Dimension", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Catacombs", Tip = "A VERY obscure location, admins will send people here sometimes. each path has a chance of killing you, or teleporting you back into the real world. Based off of SCP 106, the old man."},
-		{Name = "Dead Burger", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Burger.txt", Tip = "Deadville inflation!!!!"}
+		{Name = "Dead Burger", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Teleports/Dead%20Burger.txt", Tip = "Deadville inflation!!!!"},
+		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"},
+		{Name = "PlayerDestroyer9000", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/PlayerDestroyer9000", Tip = "PlayerDestroyer teleport"}
 	},
 	["Trolling"] = {
 		{Name = "Super Ring Parts", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/scripts/refs/heads/main/stuff/Misc/Super-Ring-Parts.txt", Tip = "Makes cars and graves fly around you. super cool."},
@@ -126,7 +128,8 @@ local tabData = {
 		{Name = "Fake animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations", Tip = "Funny animations"},
 		{Name = "Animations", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Animations%20v2", Tip = "THIS WILL LAG FOR A LITTLE! Grabs every animation in game and allows you to play them."},
 		{Name = "Stabby Knife", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Knife%20Stab", Tip = "Get a knife from the sniper shack, and this makes it look like its real"},
-		{Name = "Fists", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Fists", Tip = "Fake Fists"}
+		{Name = "Fists", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Fists", Tip = "Fake Fists"},
+		{Name = "Event anims", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Misc/Fists", Tip = "replaces your walking animations with ones only seen in the survival event, for shiftlock only"}
 	},
 ["Farms"] = {
 		{Name = "Bring all PCs", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Farms/Bring%20All%20PCs.txt", Tip = "Brings every PC screen to you, you can set up a macro to click "},
@@ -139,9 +142,7 @@ local tabData = {
 		{Name = "Garbage Bag Wings", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Wings", Tip = "You need 20 garbage bags for this."},
 		{Name = "Become A Garbage Bag", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Become%20A%20Garbage%20Bag", Tip = "Uses every garbage bag you have to create a sphere around you"},
 		{Name = "Infinite Garbage Bags", URL = "https://github.com/TimmyBoyMan7/roblox-BDFS-gui/raw/refs/heads/main/Assets/Garbage%20Bags/Inf%20Garbage%20Bags", Tip = "Hold down leftControl, and click the garbage bin while this is running"},
-		{Name = "Remove garbage bags", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Remove%20Garbage%20Bags", Tip = "Do you need an explanation"},
-		{Name = "Garbage Can", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Garbage%20Can%20Teleport", Tip = "The garbage can teleport"},
-		{Name = "PlayerDestroyer9000", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/PlayerDestroyer9000", Tip = "PlayerDestroyer teleport"}
+		{Name = "Remove garbage bags", URL = "https://raw.githubusercontent.com/TimmyBoyMan7/roblox-BDFS-gui/refs/heads/main/Assets/Garbage%20Bags/Remove%20Garbage%20Bags", Tip = "Do you need an explanation"}
 	},
 }
 
