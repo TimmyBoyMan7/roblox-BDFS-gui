@@ -1,0 +1,90 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+
+-- Replace these with your animation IDs
+local animIds = {
+    Forward = "rbxassetid://6280356164",
+    Backward = "rbxassetid://7622527104",
+    Left = "rbxassetid://7622624472",
+    Right = "rbxassetid://7622638623",
+}
+
+local animations = {}
+local tracks = {}
+for dir, id in pairs(animIds) do
+    local anim = Instance.new("Animation")
+    anim.AnimationId = id
+    animations[dir] = anim
+    tracks[dir] = humanoid:LoadAnimation(anim)
+    tracks[dir].Priority = Enum.AnimationPriority.Movement
+end
+
+local held = { W = false, A = false, S = false, D = false }
+
+-- Determine if Shift Lock is active
+local function isShiftLockOn()
+    return UserInputService.MouseBehavior == Enum.MouseBehavior.LockCenter
+end
+
+-- Direction logic
+local function updateAnimations()
+    if not isShiftLockOn() then
+        -- Stop all if not in shift lock
+        for _, track in pairs(tracks) do
+            if track.IsPlaying then track:Stop() end
+        end
+        return
+    end
+
+    -- Priority: WASD individually
+    if held.W then
+        if not tracks.Forward.IsPlaying then
+            for _, t in pairs(tracks) do t:Stop() end
+            tracks.Forward:Play()
+        end
+    elseif held.S then
+        if not tracks.Backward.IsPlaying then
+            for _, t in pairs(tracks) do t:Stop() end
+            tracks.Backward:Play()
+        end
+    elseif held.A then
+        if not tracks.Left.IsPlaying then
+            for _, t in pairs(tracks) do t:Stop() end
+            tracks.Left:Play()
+        end
+    elseif held.D then
+        if not tracks.Right.IsPlaying then
+            for _, t in pairs(tracks) do t:Stop() end
+            tracks.Right:Play()
+        end
+    else
+        -- No key pressed, stop all
+        for _, t in pairs(tracks) do
+            if t.IsPlaying then t:Stop() end
+        end
+    end
+end
+
+UserInputService.InputBegan:Connect(function(input, gpe)
+    if gpe then return end
+    if input.KeyCode == Enum.KeyCode.W then held.W = true end
+    if input.KeyCode == Enum.KeyCode.A then held.A = true end
+    if input.KeyCode == Enum.KeyCode.S then held.S = true end
+    if input.KeyCode == Enum.KeyCode.D then held.D = true end
+end)
+
+UserInputService.InputEnded:Connect(function(input, gpe)
+    if input.KeyCode == Enum.KeyCode.W then held.W = false end
+    if input.KeyCode == Enum.KeyCode.A then held.A = false end
+    if input.KeyCode == Enum.KeyCode.S then held.S = false end
+    if input.KeyCode == Enum.KeyCode.D then held.D = false end
+end)
+
+RunService.RenderStepped:Connect(function()
+    updateAnimations()
+end)
